@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /private/
+Disallow: /api/
+Disallow: /storage/
+
+Sitemap: https://globalsystemsolutionspartners.com/sitemap.xml

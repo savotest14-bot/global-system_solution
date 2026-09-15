@@ -1,0 +1,13 @@
+# Ignore everything by default
+/*
+
+# Allow .gitignore
+!.gitignore
+
+# Whitelist the dist directory and all files within it
+!/dist/
+!/dist/**
+
+# Ignore runtime logs inside dist/storage/logs
+dist/storage/logs/*.log
+!dist/storage/logs/.gitkeep

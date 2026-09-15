@@ -1,0 +1,19 @@
+RewriteEngine On
+
+# Set noindex for private area
+<IfModule mod_headers.c>
+  <If "%{REQUEST_URI} =~ m#^/private/#">
+    Header set X-Robots-Tag "noindex, nofollow, noarchive"
+  </If>
+</IfModule>
+
+# Don't rewrite existing files
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Don't rewrite PHP endpoints
+RewriteRule ^api/ - [L]
+
+# React SPA fallback
+RewriteRule . /index.html [L]
