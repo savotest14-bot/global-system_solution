@@ -11,7 +11,7 @@ define('SMTP_PASS', 'R7S%*Sw!5%W8Xu5n');
 define('SMTP_SECURE', 'tls');
 
 // Admin email to receive all website contact submissions
-define('ADMIN_EMAIL', 'wdstpl@gmail.com');
+define('ADMIN_EMAIL', 'form@globalsystemsolutionspartners.com');
 
 // Sender identity
 define('SENDER_EMAIL', 'form@globalsystemsolutionspartners.com');
