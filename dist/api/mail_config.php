@@ -1,20 +1,19 @@
 <?php
 
 // --------------------------------------------------------------------------
-// SMTP Configuration
+// SMTP Configuration (Infomaniak)
 // --------------------------------------------------------------------------
-// To deliver emails directly to Gmail inboxes without Infomaniak relay blocks,
-// configure Gmail SMTP with a 16-character Google App Password.
 
-define('SMTP_HOST', 'smtp.gmail.com');
+define('SMTP_HOST', 'mail.infomaniak.com');
 define('SMTP_PORT', 587);
-define('SMTP_USER', 'ngrokutltest@gmail.com');
-define('SMTP_PASS', 'mthi ojlc tord yqds'); // Replace with your 16-character Google App Password
+define('SMTP_USER', 'form@globalsystemsolutionspartners.com');
+define('SMTP_PASS', 'R7S%*Sw!5%W8Xu5n');
 define('SMTP_SECURE', 'tls');
 
 // Admin email to receive all website contact submissions
 define('ADMIN_EMAIL', 'wdstpl@gmail.com');
 
 // Sender identity
-define('SENDER_EMAIL', 'wdstpl@gmail.com');
+define('SENDER_EMAIL', 'form@globalsystemsolutionspartners.com');
 define('SENDER_NAME', 'Global System Solutions Partners');
+

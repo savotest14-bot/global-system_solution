@@ -92,7 +92,7 @@ function createMailer() {
     if (defined('SMTP_HOST') && strpos(SMTP_HOST, 'gmail') !== false) {
         $mail->Hostname = 'gmail.com';
     } else {
-        $mail->Hostname = 'thecorporatehub.org';
+        $mail->Hostname = 'globalsystemsolutionspartners.com';
     }
     $mail->CharSet    = "UTF-8";
     $mail->setFrom(SENDER_EMAIL, SENDER_NAME);
