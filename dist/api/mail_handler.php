@@ -51,13 +51,15 @@ $company        = htmlspecialchars(trim($input["company"] ?? $input["co"] ?? "")
 $email          = filter_var(trim($input["email"] ?? $input["em"] ?? ""), FILTER_VALIDATE_EMAIL);
 $areaOfInterest = htmlspecialchars(trim($input["areaOfInterest"] ?? $input["sv"] ?? ""));
 $message        = nl2br(htmlspecialchars(trim($input["message"] ?? $input["msg"] ?? "")));
+$newsletter     = filter_var($input["newsletter"] ?? false, FILTER_VALIDATE_BOOLEAN);
+$terms          = filter_var($input["terms"] ?? false, FILTER_VALIDATE_BOOLEAN);
 
 // Validation
-if (empty($firstName) || empty($lastName) || !$email) {
+if (empty($firstName) || empty($lastName) || !$email || !$terms) {
     http_response_code(400);
     echo json_encode([
         "success" => false,
-        "message" => "Please fill all required fields (First name, Last name, and a valid Email address)."
+        "message" => "Please fill all required fields, provide a valid email, and accept the Terms & Conditions."
     ]);
     exit;
 }
@@ -161,6 +163,8 @@ $adminBody .= '
         <tr><td class="label">Area of Interest</td><td class="val">' . (!empty($areaOfInterest) ? $areaOfInterest : '<span style="color:#8C877E; font-style:italic;">General Enquiry</span>') . '</td></tr>
         <tr><td class="label">Timestamp</td><td class="val">' . $submissionTime . '</td></tr>
         <tr><td class="label">Origin IP</td><td class="val">' . $clientIp . '</td></tr>
+        <tr><td class="label">Newsletter Opt-in</td><td class="val">' . ($newsletter ? "Yes" : "No") . '</td></tr>
+        <tr><td class="label">Terms Accepted</td><td class="val">Yes</td></tr>
       </table>';
 
 if (!empty($message)) {
