@@ -45,14 +45,14 @@ if (!$input) {
 }
 
 // Extract and sanitize strictly the 6 contact form fields
-$firstName      = htmlspecialchars(trim($input["firstName"] ?? $input["fn"] ?? ""));
-$lastName       = htmlspecialchars(trim($input["lastName"] ?? $input["ln"] ?? ""));
-$company        = htmlspecialchars(trim($input["company"] ?? $input["co"] ?? ""));
-$email          = filter_var(trim($input["email"] ?? $input["em"] ?? ""), FILTER_VALIDATE_EMAIL);
+$firstName = htmlspecialchars(trim($input["firstName"] ?? $input["fn"] ?? ""));
+$lastName = htmlspecialchars(trim($input["lastName"] ?? $input["ln"] ?? ""));
+$company = htmlspecialchars(trim($input["company"] ?? $input["co"] ?? ""));
+$email = filter_var(trim($input["email"] ?? $input["em"] ?? ""), FILTER_VALIDATE_EMAIL);
 $areaOfInterest = htmlspecialchars(trim($input["areaOfInterest"] ?? $input["sv"] ?? ""));
-$message        = nl2br(htmlspecialchars(trim($input["message"] ?? $input["msg"] ?? "")));
-$newsletter     = filter_var($input["newsletter"] ?? false, FILTER_VALIDATE_BOOLEAN);
-$terms          = filter_var($input["terms"] ?? false, FILTER_VALIDATE_BOOLEAN);
+$message = nl2br(htmlspecialchars(trim($input["message"] ?? $input["msg"] ?? "")));
+$newsletter = filter_var($input["newsletter"] ?? false, FILTER_VALIDATE_BOOLEAN);
+$terms = filter_var($input["terms"] ?? false, FILTER_VALIDATE_BOOLEAN);
 
 // Validation
 if (empty($firstName) || empty($lastName) || !$email || !$terms) {
@@ -82,28 +82,29 @@ foreach ($possibleLogos as $candidate) {
 }
 
 // Mailer factory helper
-function createMailer() {
+function createMailer()
+{
     $mail = new PHPMailer(true);
     $mail->isSMTP();
-    $mail->Host       = SMTP_HOST;
-    $mail->SMTPAuth   = true;
-    $mail->Username   = SMTP_USER;
-    $mail->Password   = SMTP_PASS;
+    $mail->Host = SMTP_HOST;
+    $mail->SMTPAuth = true;
+    $mail->Username = SMTP_USER;
+    $mail->Password = SMTP_PASS;
     $mail->SMTPSecure = (defined('SMTP_SECURE') && strtolower(SMTP_SECURE) === 'ssl') ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = SMTP_PORT;
+    $mail->Port = SMTP_PORT;
     if (defined('SMTP_HOST') && strpos(SMTP_HOST, 'gmail') !== false) {
         $mail->Hostname = 'gmail.com';
     } else {
         $mail->Hostname = 'globalsystemsolutionspartners.com';
     }
-    $mail->CharSet    = "UTF-8";
+    $mail->CharSet = "UTF-8";
     $mail->setFrom(SENDER_EMAIL, SENDER_NAME);
-    $mail->Sender     = SENDER_EMAIL;
+    $mail->Sender = SENDER_EMAIL;
     return $mail;
 }
 
 $submissionTime = date("d M Y &bull; H:i T");
-$clientIp       = $_SERVER["REMOTE_ADDR"] ?? "Unknown";
+$clientIp = $_SERVER["REMOTE_ADDR"] ?? "Unknown";
 
 // --------------------------------------------------------------------------
 // 1. Template: Admin Notification Email
@@ -177,7 +178,7 @@ $adminBody .= '
     </div>
     <div class="footer">
       <div class="footer-brand">GLOBAL SYSTEM SOLUTIONS PARTNERS</div>
-      <div class="footer-tag">Part of the EquusChain Ecosystem infrastructure</div>
+      <div class="footer-tag">Part of the EquusChain Ecosystem</div>
       <div class="footer-legal">
         &copy; ' . date("Y") . ' Global System Solutions Partners. All rights reserved.<br>
         This email and any attachments are confidential and intended solely for GSSP administration.
@@ -261,7 +262,7 @@ $confirmBody .= '
     </div>
     <div class="footer">
       <div class="footer-brand">GLOBAL SYSTEM SOLUTIONS PARTNERS</div>
-      <div class="footer-tag">Part of the EquusChain Ecosystem infrastructure</div>
+      <div class="footer-tag">Part of the EquusChain Ecosystem</div>
       <div class="footer-legal">
         &copy; ' . date("Y") . ' Global System Solutions Partners. All rights reserved.<br>
         This communication is confidential and intended solely for the addressee.
@@ -288,9 +289,9 @@ try {
     $adminMail->addReplyTo($email, $firstName . ' ' . $lastName);
     $adminMail->isHTML(true);
     $adminMail->Subject = $adminSubject;
-    $adminMail->Body    = $adminBody;
+    $adminMail->Body = $adminBody;
     $adminMail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $adminBody));
-    
+
     $adminMail->send();
     $adminSent = true;
 } catch (Exception $eAdmin) {
@@ -307,9 +308,9 @@ try {
             $fbMail->addReplyTo($email, $firstName . ' ' . $lastName);
             $fbMail->isHTML(true);
             $fbMail->Subject = '[Enquiry Delivery] ' . $adminSubject;
-            $fbMail->Body    = $adminBody;
+            $fbMail->Body = $adminBody;
             $fbMail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $adminBody));
-            
+
             $fbMail->send();
             $adminSent = true;
 
@@ -334,9 +335,9 @@ if ($adminSent) {
         $userMail->addAddress($email, $firstName . ' ' . $lastName);
         $userMail->isHTML(true);
         $userMail->Subject = $confirmSubject;
-        $userMail->Body    = $confirmBody;
+        $userMail->Body = $confirmBody;
         $userMail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $confirmBody));
-        
+
         $userMail->send();
     } catch (Exception $eUser) {
         // Log user confirmation status; does not invalidate successful enquiry intake
@@ -359,6 +360,6 @@ if ($adminSent) {
     echo json_encode([
         "success" => false,
         "message" => "An error occurred while sending your request. Please try again or contact us directly.",
-        "error"   => $adminError
+        "error" => $adminError
     ]);
 }
